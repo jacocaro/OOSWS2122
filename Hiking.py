@@ -36,7 +36,7 @@ class Player(object):
                 self.jumpCount = 0
                 self.jumping = False
                 self.runCount = 0 # um rennen Animation von Bild index 0 neu zu starten
-            # ------------ hier weitere Moves einfügen 
+      # ------------ hier weitere Moves einfügen 
             
         else:
             screen.blit(self.run, (self.x,self.y))
