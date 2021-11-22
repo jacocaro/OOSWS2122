@@ -15,9 +15,9 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 # -------------------------------- Klassen -------------------------------------------
 class Player(object):
     # evtl später Array mit Bildern für Animation hinterlegen
-    run = pygame.image.load(os.path.join('Images', 'hiker.png'))
+    run = pygame.image.load(os.path.join('Images', 'ghost.png'))
     # evtl später Array mit Bildern für Animation hinterlegen
-    jump = pygame.image.load(os.path.join('Images', 'hiker.png'))
+    jump = pygame.image.load(os.path.join('Images', 'ghost.png'))
     jumpList = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4]
 
@@ -61,7 +61,7 @@ class Player(object):
         return False
 
 class Light(object):
-    light_img = pygame.image.load(os.path.join('images', 'bush.png'))
+    light_img = pygame.image.load(os.path.join('images', 'lantern.png'))
 
     def __init__(self, x, y, width, height):
         self.x = x
