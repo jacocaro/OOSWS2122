@@ -18,6 +18,7 @@ class Player(object):
     run = pygame.image.load(os.path.join('Images', 'ghost.png'))
     # evtl später Array mit Bildern für Animation hinterlegen
     jump = pygame.image.load(os.path.join('Images', 'ghost.png'))
+    fade = pygame.image.load(os.path.join('Images', 'ghost_trans.png'))
     jumpList = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4]
 
@@ -27,6 +28,8 @@ class Player(object):
         self.width = width
         self.height = height
         self.jumping = False
+        self.fading = False
+        self.fadeCount = 0
         self.jumpCount = 0
         self.runCount = 0
         self.colliding = False
@@ -43,7 +46,15 @@ class Player(object):
                 self.jumpCount = 0
                 self.jumping = False
                 self.runCount = 0  # um rennen Animation von Bild index 0 neu zu starten
-            # ------------ hier weitere Moves einfügen
+        
+        if self.fading:
+            screen.blit(self.fade, (self.x, self.y))
+            self.fadeCount += 1
+
+            if self.fadeCount > 20:
+                self.fadeCount = 0
+                self.fading = False
+                self.runCount = 0  # um rennen Animation von Bild index 0 neu zu starten
 
         else:
             screen.blit(self.run, (self.x, self.y))
@@ -57,6 +68,9 @@ class Player(object):
 
     def collide(self, obstacle):
         if self.hitbox.colliderect(obstacle.hitbox):
+            if self.fading and type(obstacle) == Wall:
+                return False
+            else:
                 return True
         return False
 
@@ -81,7 +95,7 @@ class Light(object):
         screen.blit(self.light_img, (self.x, self.y))
 
 class Wall(object):
-    light_img = pygame.image.load(os.path.join('images', 'lantern.png'))
+    light_img = pygame.image.load(os.path.join('images', 'wall.png'))
 
     def __init__(self, x, y, width, height):
         self.x = x
@@ -164,15 +178,17 @@ class Game():
 
     def add_random_obstacle(self):
         r = random.randrange(0, len(self.obstacle_prefabs))
+        # Lantern
         if r == 0:
             self.obstacles.append(self.obstacle_prefabs[r](810, 270, 114, 117))
+        # Wall
         if r == 1:
-            self.obstacles.append(self.obstacle_prefabs[r](810, 270, 20, 447))
+            self.obstacles.append(self.obstacle_prefabs[r](810, 0, 20, 447))
 
 
 # ----------------- Variablen und Mainloop -------------------------------------
 runner = Player(200, 313, 40, 55)
-game = Game(1, runner)
+game = Game(2, runner)
 clock = pygame.time.Clock()
 back_ground = Background()
 speed = 30  # Max Framerate
@@ -183,7 +199,7 @@ inc_speed = pygame.USEREVENT + 1
 pygame.time.set_timer(inc_speed, 500)
 
 add_obstacle = pygame.USEREVENT + 2
-pygame.time.set_timer(add_obstacle, 6000)
+pygame.time.set_timer(add_obstacle, 2000)
 
 # Main loop
 while True:
@@ -200,6 +216,9 @@ while True:
                 runner.jumping = True
         if keys[pygame.K_h]:
             game.show_hitboxes = not game.show_hitboxes
+        if keys[pygame.K_e] or keys[pygame.K_RIGHT]:
+            if not(runner.fading):
+                runner.fading = True
 
         if event.type == QUIT:
             pygame.quit()
