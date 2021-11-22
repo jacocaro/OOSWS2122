@@ -159,10 +159,15 @@ class Game():
     def generate_prefabs(self, level):
         if level == 1:
             return [Light]
+        if level == 2:
+            return [Light, Wall]
 
     def add_random_obstacle(self):
         r = random.randrange(0, len(self.obstacle_prefabs))
-        self.obstacles.append(self.obstacle_prefabs[r](810, 270, 114, 117))
+        if r == 0:
+            self.obstacles.append(self.obstacle_prefabs[r](810, 270, 114, 117))
+        if r == 1:
+            self.obstacles.append(self.obstacle_prefabs[r](810, 270, 20, 447))
 
 
 # ----------------- Variablen und Mainloop -------------------------------------
