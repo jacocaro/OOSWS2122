@@ -16,9 +16,9 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 
 runner = Player(200, 313, 40, 55)
 moving_speed = 5
-game = Game(1, runner, moving_speed)
+game = Game(2, runner, moving_speed)
 clock = pygame.time.Clock()
-back_ground = Background(moving_speed, screen, game)
+back_ground = Background(moving_speed, game)
 speed = 30  # Max Framerate
 
 # Adding User events
@@ -53,7 +53,7 @@ if __name__ == '__main__':
                 pygame.quit()
                 sys.exit()
 
-        back_ground.update()
+        back_ground.update(screen)
         runner.update(screen)
         game.update_obstacles(screen)
         pygame.display.update()

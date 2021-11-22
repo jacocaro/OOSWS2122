@@ -33,7 +33,6 @@ class Player(object):
             # wenn Animation erfolgen soll: self.jump durch self.jump[gewünschte Anzahl] ersetzen
             screen.blit(self.jump, (self.x, self.y))
             self.jumpCount += 1
-
             if self.jumpCount > 108:
                 self.jumpCount = 0
                 self.jumping = False
@@ -41,27 +40,19 @@ class Player(object):
         if self.fading:
             screen.blit(self.fade, (self.x, self.y))
             self.fadeCount += 1
-
             if self.fadeCount > 20:
                 self.fadeCount = 0
                 self.fading = False
 
         if self.hit:
-                screen.blit(self.ghostHit, (self.x, self.y))
-                self.gothitcount += 1
-
-                if self.gothitcount > 5:
-                    self.gothitcount = 0
-                    self.hit = False
+            screen.blit(self.ghostHit, (self.x, self.y))
+            self.gothitcount += 1
+            if self.gothitcount > 5:
+                self.gothitcount = 0
+                self.hit = False
                       
-
-        else:
+        if not self.hit and not self.fading:
             screen.blit(self.run, (self.x, self.y))
-            # ----------- falls doch Animation gewünscht:
-            # if self.runCount > 42:
-            # self.runCount = 0
-            # screen.blit(self.run, (self.x,self.y)): self.jump durch self.run[gewünschte Anzahl] ersetzen
-            # self.runCount += 1
 
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 

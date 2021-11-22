@@ -3,9 +3,8 @@ from pygame.locals import *
 import os
 
 class Background():
-    def __init__(self, moving_speed, screen, game):
+    def __init__(self, moving_speed, game):
         self.moving_speed = moving_speed
-        self.screen = screen
         self.game = game
         self.bgimage = pygame.image.load(os.path.join(
             'Images', 'background.png')).convert()  # first bg-image
@@ -19,7 +18,7 @@ class Background():
         self.bgY2 = 0
         self.bgX2 = self.rectBGimg.width
 
-    def update(self):
+    def update(self, screen):
         # decrementing both x-values by speed-value
         self.bgX1 -= self.moving_speed
         self.bgX2 -= self.moving_speed
@@ -30,7 +29,7 @@ class Background():
         if self.bgX2 <= -self.rectBGimg.width:
             self.bgX2 = self.rectBGimg.width
 
-        self.screen.blit(self.bgimage, (self.bgX1, self.bgY1))
-        self.screen.blit(self.bgimage, (self.bgX2, self.bgY2))
+        screen.blit(self.bgimage, (self.bgX1, self.bgY1))
+        screen.blit(self.bgimage, (self.bgX2, self.bgY2))
         # Anzeige Hit-User-Interface
-        self.screen.blit(self.game.hitUi, (10,230))
+        screen.blit(self.game.hitUi, (10,230))
