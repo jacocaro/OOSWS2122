@@ -69,6 +69,27 @@ class Light(object):
         self.width = width
         self.height = height
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.is_collided = False
+
+    def update(self, screen):
+
+        # verschiebe sprite auf x-Achse nach links entsprechend moving_speed
+        self.x -= moving_speed
+        # Hitbox
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+
+        screen.blit(self.light_img, (self.x, self.y))
+
+class Wall(object):
+    light_img = pygame.image.load(os.path.join('images', 'lantern.png'))
+
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.is_collided = False
 
     def update(self, screen):
 
@@ -130,16 +151,23 @@ class Game():
                 pygame.draw.rect(screen, (255, 0, 0), self.player.hitbox, 2)
 
             if self.player.collide(obstacle):
-                self.hit_count += 1
-                pygame.display.set_caption('Hulahu, Collide count: ' + str(self.hit_count))
+                if obstacle.is_collided == False:
+                    obstacle.is_collided = True
+                    self.hit_count += 1
+                    pygame.display.set_caption('Hulahu, Collide count: ' + str(self.hit_count))
 
     def generate_prefabs(self, level):
         if level == 1:
             return [Light]
+        if level == 2:
+            return [Light, Wall]
 
     def add_random_obstacle(self):
         r = random.randrange(0, len(self.obstacle_prefabs))
-        self.obstacles.append(self.obstacle_prefabs[r](810, 270, 114, 117))
+        if r == 0:
+            self.obstacles.append(self.obstacle_prefabs[r](810, 270, 114, 117))
+        if r == 1:
+            self.obstacles.append(self.obstacle_prefabs[r](810, 270, 20, 447))
 
 
 # ----------------- Variablen und Mainloop -------------------------------------
@@ -155,7 +183,7 @@ inc_speed = pygame.USEREVENT + 1
 pygame.time.set_timer(inc_speed, 500)
 
 add_obstacle = pygame.USEREVENT + 2
-pygame.time.set_timer(add_obstacle, 3000)
+pygame.time.set_timer(add_obstacle, 6000)
 
 # Main loop
 while True:
