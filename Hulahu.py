@@ -15,9 +15,9 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 # -------------------------------- Klassen -------------------------------------------
 class Player(object):
     # evtl später Array mit Bildern für Animation hinterlegen
-    run = pygame.image.load(os.path.join('Images', 'hiker.png'))
+    run = pygame.image.load(os.path.join('Images', 'ghost.png'))
     # evtl später Array mit Bildern für Animation hinterlegen
-    jump = pygame.image.load(os.path.join('Images', 'hiker.png'))
+    jump = pygame.image.load(os.path.join('Images', 'ghost.png'))
     jumpList = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4]
 
@@ -61,7 +61,7 @@ class Player(object):
         return False
 
 class Light(object):
-    light_img = pygame.image.load(os.path.join('images', 'bush.png'))
+    light_img = pygame.image.load(os.path.join('images', 'lantern.png'))
 
     def __init__(self, x, y, width, height):
         self.x = x
@@ -69,6 +69,27 @@ class Light(object):
         self.width = width
         self.height = height
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.is_collided = False
+
+    def update(self, screen):
+
+        # verschiebe sprite auf x-Achse nach links entsprechend moving_speed
+        self.x -= moving_speed
+        # Hitbox
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+
+        screen.blit(self.light_img, (self.x, self.y))
+
+class Wall(object):
+    light_img = pygame.image.load(os.path.join('images', 'lantern.png'))
+
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.is_collided = False
 
     def update(self, screen):
 
@@ -130,8 +151,10 @@ class Game():
                 pygame.draw.rect(screen, (255, 0, 0), self.player.hitbox, 2)
 
             if self.player.collide(obstacle):
-                self.hit_count += 1
-                pygame.display.set_caption('Hulahu, Collide count: ' + str(self.hit_count))
+                if obstacle.is_collided == False:
+                    obstacle.is_collided = True
+                    self.hit_count += 1
+                    pygame.display.set_caption('Hulahu, Collide count: ' + str(self.hit_count))
 
     def generate_prefabs(self, level):
         if level == 1:
@@ -155,7 +178,7 @@ inc_speed = pygame.USEREVENT + 1
 pygame.time.set_timer(inc_speed, 500)
 
 add_obstacle = pygame.USEREVENT + 2
-pygame.time.set_timer(add_obstacle, 3000)
+pygame.time.set_timer(add_obstacle, 6000)
 
 # Main loop
 while True:
