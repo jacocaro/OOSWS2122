@@ -28,8 +28,8 @@ levelRunning = True
 endScreen = False
 
 # Adding User events
-inc_speed = pygame.USEREVENT + 1
-pygame.time.set_timer(inc_speed, 500)
+# inc_speed = pygame.USEREVENT + 1
+# pygame.time.set_timer(inc_speed, 500)
 
 add_obstacle = pygame.USEREVENT + 2
 pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
@@ -77,20 +77,35 @@ if __name__ == '__main__':
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_LEFT]:
+                    # initialize new game and new Background with new HitUi
                     game = Game(1, runner, moving_speed)
+                    back_ground = Background(moving_speed, game)
+
+                    # set needed event-timers
+                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, 15000, loops=1)
+
+                    # set switches
                     levelRunning = True
                     endScreen = False
 
                 if keys[pygame.K_RIGHT]:
+                    # initialize new game and new Background with new HitUi
                     game = Game(2, runner, moving_speed)
+                    back_ground = Background(moving_speed, game)
+
+                    # set needed event-timers
+                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, 15000, loops=1)
+
+                    # set switches
                     levelRunning = True
                     endScreen = False
             
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-            final_screen.update(screen)
+                    
+            final_screen.update(screen, game)
             pygame.display.update()
 
