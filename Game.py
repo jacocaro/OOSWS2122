@@ -34,6 +34,7 @@ class Game():
             if self.player.collide(obstacle):
                 if obstacle.is_collided == False:
                     obstacle.is_collided = True
+                    self.player.gotHit = True
                     self.hit_count += 1
                     #Update Hit-User Interface
                     self.hitUi = self.font.render('Hits: ' + str(self.hit_count), True, Color('white'))

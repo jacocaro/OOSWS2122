@@ -10,31 +10,32 @@ class Player(object):
     jump = pygame.image.load(os.path.join('Images', 'ghost.png'))
     fade = pygame.image.load(os.path.join('Images', 'ghost_trans.png'))
     ghostHit = pygame.image.load(os.path.join('Images', 'ghost_red.png'))
-    jumpList = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4]
 
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+        self.y_base = 313
         self.width = width
         self.height = height
         self.jumping = False
         self.fading = False
         self.fadeCount = 0
-        self.jumpCount = 0
-        self.hit = False
+        self.gotHit = False
         self.gothitcount = 0
         self.colliding = False
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
+        self.jump_multiplier = 0.89
+
     def update(self, screen):
         if self.jumping:
-            self.y -= self.jumpList[self.jumpCount] * 1.2
-            # wenn Animation erfolgen soll: self.jump durch self.jump[gewünschte Anzahl] ersetzen
-            screen.blit(self.jump, (self.x, self.y))
-            self.jumpCount += 1
-            if self.jumpCount > 108:
-                self.jumpCount = 0
+            self.jump_multiplier += 0.005
+
+            self.y *= self.jump_multiplier
+
+            if self.y >= self.y_base:
+                self.y = self.y_base
+                self.jump_multiplier = 0.89
                 self.jumping = False
         
         if self.fading:
@@ -44,14 +45,14 @@ class Player(object):
                 self.fadeCount = 0
                 self.fading = False
 
-        if self.hit:
+        if self.gotHit:
             screen.blit(self.ghostHit, (self.x, self.y))
             self.gothitcount += 1
-            if self.gothitcount > 5:
+            if self.gothitcount > 10:
                 self.gothitcount = 0
-                self.hit = False
+                self.gotHit = False
                       
-        if not self.hit and not self.fading:
+        if not self.gotHit and not self.fading:
             screen.blit(self.run, (self.x, self.y))
 
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -61,6 +62,5 @@ class Player(object):
             if self.fading and type(obstacle) == Wall:
                 return False
             else:
-                self.hit = True
                 return True
         return False
