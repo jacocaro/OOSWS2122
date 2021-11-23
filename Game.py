@@ -1,8 +1,10 @@
 import pygame
+import os
 from pygame.locals import *
 import random
 from Light import Light
 from Wall import Wall
+from Castle import Castle
 
 class Game():
 
@@ -41,18 +43,22 @@ class Game():
 
     def generate_prefabs(self, level):
         if level == 1:
-            return [Light]
+            return [Light, Castle]
         if level == 2:
-            return [Light, Wall]
+            return [Light, Wall, Castle]
 
-    def add_random_obstacle(self):
-        self.r = random.randrange(0, len(self.obstacle_prefabs))
-        # Lantern
-        if self.r == 0:
-            self.obstacles.append(self.obstacle_prefabs[self.r](810, 270, 114, 117, self.moving_speed))
-        # Wall
-        if self.r == 1:
-            self.obstacles.append(self.obstacle_prefabs[self.r](810, 0, 20, 447, self.moving_speed))
+    def add_random_obstacle(self, showCastle):
+        self.r = random.randrange(0, len(self.obstacle_prefabs)-1)
+
+        if showCastle == False:
+            # Lantern
+            if self.r == 0:
+                self.obstacles.append(self.obstacle_prefabs[self.r](810, 270, 114, 117, self.moving_speed))
+            # Wall
+            if self.r == 1:
+                self.obstacles.append(self.obstacle_prefabs[self.r](810, 0, 20, 447, self.moving_speed))
+        else:
+            self.obstacles.append(self.obstacle_prefabs[len(self.obstacle_prefabs)-1](810, 200, 0, 0, self.moving_speed))
     
     def generate_random_time(self, level):
         if level == 1:

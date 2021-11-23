@@ -18,7 +18,6 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 runner = Player(200, 313, 40, 55)
 moving_speed = 5
 game = Game(1, runner, moving_speed)
-# game2 = Game(2, runner, moving_speed)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
 final_screen = Endscreen(game)
@@ -26,16 +25,19 @@ speed = 30  # Max Framerate
 startScreen = False
 levelRunning = True
 endScreen = False
+levelTime = 15000
+castleTime = 10000
+showCastle = False
 
 # Adding User events
-# inc_speed = pygame.USEREVENT + 1
-# pygame.time.set_timer(inc_speed, 500)
-
-add_obstacle = pygame.USEREVENT + 2
+add_obstacle = pygame.USEREVENT + 1
 pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
 
-level_end_timer = pygame.USEREVENT + 3
-pygame.time.set_timer(level_end_timer, 15000, loops=1)
+level_end_timer = pygame.USEREVENT + 2
+pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+
+show_castle_timer = pygame.USEREVENT + 3
+pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
 
 if __name__ == '__main__':
 
@@ -44,11 +46,11 @@ if __name__ == '__main__':
         while levelRunning:
             # Eventhandler: Cycles through all occurring events
             for event in pygame.event.get():
-                # if event.type == inc_speed:
-                #      moving_speed += 0.5
                 if event.type == add_obstacle:
-                    game.add_random_obstacle()
+                    game.add_random_obstacle(showCastle)
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                if event.type == show_castle_timer:
+                    showCastle = True
                 if event.type == level_end_timer:
                     endScreen = True
                     levelRunning = False
@@ -83,7 +85,7 @@ if __name__ == '__main__':
 
                     # set needed event-timers
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
-                    pygame.time.set_timer(level_end_timer, 15000, loops=1)
+                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
                     levelRunning = True
@@ -96,7 +98,7 @@ if __name__ == '__main__':
 
                     # set needed event-timers
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
-                    pygame.time.set_timer(level_end_timer, 15000, loops=1)
+                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
                     levelRunning = True
