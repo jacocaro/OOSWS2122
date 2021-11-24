@@ -18,10 +18,12 @@ class Background():
         self.bgY2 = 0
         self.bgX2 = self.rectBGimg.width
 
-    def update(self, screen):
+    def update(self, screen, showCastle):
         # decrementing both x-values by speed-value
         self.bgX1 -= self.moving_speed
         self.bgX2 -= self.moving_speed
+        if self.moving_speed > 0 and showCastle:
+            self.moving_speed -= 0.01
 
         # If variables exceed the width of the screen --> reset original position at the left
         if self.bgX1 <= -self.rectBGimg.width:

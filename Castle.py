@@ -18,6 +18,8 @@ class Castle(object):
 
         # verschiebe sprite auf x-Achse nach links entsprechend moving_speed
         self.x -= self.moving_speed
+        if self.moving_speed > 0:
+            self.moving_speed -= 0.01
         # Hitbox
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 

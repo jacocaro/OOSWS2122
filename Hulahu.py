@@ -5,6 +5,8 @@ from Endscreen import Endscreen
 from Player import Player
 from Game import Game
 from Background import Background
+from Startscreen import Startscreen
+from Button import Button
 
 pygame.init()
 
@@ -21,13 +23,16 @@ game = Game(1, runner, moving_speed)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
 final_screen = Endscreen(game)
+start_screen = Startscreen(screen)
+buttonList = [Button(10, 410, 107, 45, 'leicht'), Button(127, 410, 107, 45, 'schwer'), Button(244, 410, 107, 45, 'ende')]
 speed = 30  # Max Framerate
-startScreen = False
-levelRunning = True
+startScreen = True
+levelRunning = False
 endScreen = False
-levelTime = 15000
-castleTime = 10000
+levelTime = 20000
+castleTime = 14500
 showCastle = False
+
 
 # Adding User events
 add_obstacle = pygame.USEREVENT + 1
@@ -69,18 +74,19 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
 
-            back_ground.update(screen)
+            back_ground.update(screen, showCastle)
             runner.update(screen)
-            game.update_obstacles(screen)
+            game.update_obstacles(screen, showCastle)
             pygame.display.update()
             clock.tick(speed)
         
-        while endScreen:
+        while startScreen:
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
+                if event.type == MOUSEBUTTONDOWN:
+                    pass
                 if keys[pygame.K_LEFT]:
                     # initialize new game and new Background with new HitUi
-                    showCastle = False
                     game = Game(1, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
                     
@@ -89,14 +95,12 @@ if __name__ == '__main__':
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
-                    # set switches
-                    
+                    # set switches 
                     levelRunning = True
-                    endScreen = False
+                    startScreen = False
 
                 if keys[pygame.K_RIGHT]:
                     # initialize new game and new Background with new HitUi
-                    showCastle = False
                     game = Game(2, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
 
@@ -106,7 +110,45 @@ if __name__ == '__main__':
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
+                    levelRunning = True
+                    startScreen = False
+            
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
                     
+            pygame.display.update()
+        
+        while endScreen:
+            for event in pygame.event.get():
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_LEFT]:
+                    # initialize new game and new Background with new HitUi
+                    game = Game(1, runner, moving_speed)
+                    back_ground = Background(moving_speed, game)
+                    
+                    # set needed event-timers
+                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
+                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+
+                    # set switches
+                    showCastle = False
+                    levelRunning = True
+                    endScreen = False
+
+                if keys[pygame.K_RIGHT]:
+                    # initialize new game and new Background with new HitUi
+                    game = Game(2, runner, moving_speed)
+                    back_ground = Background(moving_speed, game)
+
+                    # set needed event-timers
+                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
+                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+
+                    # set switches
+                    showCastle = False
                     levelRunning = True
                     endScreen = False
             

@@ -17,11 +17,12 @@ class Game():
         self.r = 0
         self.show_hitboxes = False
         self.moving_speed = moving_speed
+        self.castle = Castle(810, 200, 0, 0, self.moving_speed)
         # Anzeige Hit-User-Interface
         self.font = pygame.font.Font(None,25)
         self.hitUi = self.font.render('Hits: ' + str(self.hit_count), True, Color('white'))
 
-    def update_obstacles(self, screen):
+    def update_obstacles(self, screen, showCastle):
         for obstacle in self.obstacles:
 
             if obstacle.x < -150:
@@ -40,15 +41,17 @@ class Game():
                     self.hit_count += 1
                     #Update Hit-User Interface
                     self.hitUi = self.font.render('Hits: ' + str(self.hit_count), True, Color('white'))
+        if showCastle:
+            self.castle.update(screen)
 
     def generate_prefabs(self, level):
         if level == 1:
-            return [Light, Castle]
+            return [Light]
         if level == 2:
-            return [Light, Wall, Castle]
+            return [Light, Wall]
 
     def add_random_obstacle(self, showCastle):
-        self.r = random.randrange(0, len(self.obstacle_prefabs)-1)
+        self.r = random.randrange(0, len(self.obstacle_prefabs))
 
         if showCastle == False:
             # Lantern
@@ -57,9 +60,7 @@ class Game():
             # Wall
             if self.r == 1:
                 self.obstacles.append(self.obstacle_prefabs[self.r](810, 0, 20, 447, self.moving_speed))
-        else:
-            # Castle - End of Game
-            self.obstacles.append(self.obstacle_prefabs[len(self.obstacle_prefabs)-1](810, 200, 0, 0, self.moving_speed))
+      
     
     def generate_random_time(self, level):
         if level == 1:

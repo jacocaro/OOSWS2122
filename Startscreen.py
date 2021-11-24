@@ -2,20 +2,15 @@ import pygame
 from pygame.locals import *
 import os
 
-class Startscreen():
-    def __init__(self):
-        self.bgimage = pygame.image.load(os.path.join('Images', 'startscreen.png')).convert()
-        self.fontend = pygame.font.Font(None,45)
-        self.fontNewGame = pygame.font.Font(None,25)
-        self.endScreenUiEndText = self.fontend.render('Willkommen!', True, Color('white'))
-        self.endScreenUiNewGame = self.fontNewGame.render('Drücke <- für leichtes Spiel und -> für schweres Spiel', True, Color('white'))
-        
+from Button import Button
 
-    def update(self, screen):
-        screen.blit(self.bgimage, (0,0))
-        # Anzeige Hit-User-Interface
-        # self.endScreenUiScoreText = self.fontend.render('Dein Score: ' + str(game.hit_count), True, Color('white'))
-        
-        screen.blit(self.endScreenUiEndText, (230,230))
-        # screen.blit(self.endScreenUiScoreText, (230,280))
-        screen.blit(self.endScreenUiNewGame, (50,350))
+class Startscreen():
+    
+    def __init__(self, screen):
+        self.screen = screen
+        self.bgimage = pygame.image.load(os.path.join('Images', 'startscreen.png')).convert()
+        self.fontNewGame = pygame.font.Font(None,25)
+        self.screen.blit(self.bgimage, (0,0))
+
+    def showButtons(screen, buttonList):
+        screen.blit(buttonList[0].image, buttonList[0].width, buttonList[0].height)
