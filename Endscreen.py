@@ -19,3 +19,9 @@ class Endscreen():
         #screen.blit(self.endScreenUiNewGame, (50,350))
         for button in buttonList:
             self.screen.blit(button.image, (button.x, button.y))
+    
+    def collsionDetection(self, buttonList, mousepos):
+        for button in buttonList:
+            if button.collide(mousepos):
+                return button.type
+        return False
