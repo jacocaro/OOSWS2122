@@ -34,4 +34,4 @@ class Background():
         screen.blit(self.bgimage, (self.bgX1, self.bgY1))
         screen.blit(self.bgimage, (self.bgX2, self.bgY2))
         # Anzeige Hit-User-Interface
-        screen.blit(self.game.hitUi, (10,230))
+        screen.blit(self.game.hitUi, (10,10))
