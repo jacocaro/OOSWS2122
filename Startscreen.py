@@ -2,8 +2,6 @@ import pygame
 from pygame.locals import *
 import os
 
-from Button import Button
-
 class Startscreen():
     
     def __init__(self, screen):
@@ -12,5 +10,12 @@ class Startscreen():
         self.fontNewGame = pygame.font.Font(None,25)
         self.screen.blit(self.bgimage, (0,0))
 
-    def showButtons(screen, buttonList):
-        screen.blit(buttonList[0].image, buttonList[0].width, buttonList[0].height)
+    def update(self, screen, buttonList):
+        for button in buttonList:
+            screen.blit(button.image, (button.x, button.y))
+    
+    def collsionDetection(self, buttonList, mousepos):
+        for button in buttonList:
+            if button.collide(mousepos):
+                return True, button.type
+        return False

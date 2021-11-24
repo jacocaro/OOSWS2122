@@ -19,12 +19,12 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 
 runner = Player(200, 313, 40, 55)
 moving_speed = 5
+buttonList = [Button(60, 390, 107, 45, 'leicht'), Button(187, 390, 107, 45, 'schwer'), Button(314, 390, 107, 45, 'ende')]
 game = Game(1, runner, moving_speed)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
-final_screen = Endscreen(game)
+final_screen = Endscreen(game, screen)
 start_screen = Startscreen(screen)
-buttonList = [Button(10, 410, 107, 45, 'leicht'), Button(127, 410, 107, 45, 'schwer'), Button(244, 410, 107, 45, 'ende')]
 speed = 30  # Max Framerate
 startScreen = True
 levelRunning = False
@@ -83,9 +83,7 @@ if __name__ == '__main__':
         while startScreen:
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
-                if event.type == MOUSEBUTTONDOWN:
-                    pass
-                if keys[pygame.K_LEFT]:
+                if event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'leicht':
                     # initialize new game and new Background with new HitUi
                     game = Game(1, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
@@ -99,7 +97,7 @@ if __name__ == '__main__':
                     levelRunning = True
                     startScreen = False
 
-                if keys[pygame.K_RIGHT]:
+                if event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'schwer':
                     # initialize new game and new Background with new HitUi
                     game = Game(2, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
@@ -112,11 +110,12 @@ if __name__ == '__main__':
                     # set switches
                     levelRunning = True
                     startScreen = False
-            
-                if event.type == QUIT:
+
+                if event.type == QUIT or event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'ende':
                     pygame.quit()
                     sys.exit()
-                    
+            
+            start_screen.update(screen, buttonList)
             pygame.display.update()
         
         while endScreen:
@@ -156,6 +155,6 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
                     
-            final_screen.update(screen, game)
+            final_screen.update(screen, game, buttonList)
             pygame.display.update()
 
