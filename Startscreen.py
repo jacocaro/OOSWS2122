@@ -17,5 +17,6 @@ class Startscreen():
     def collsionDetection(self, buttonList, mousepos):
         for button in buttonList:
             if button.collide(mousepos):
-                return True, button.type
+                return button.type
         return False
+            

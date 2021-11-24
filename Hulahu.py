@@ -19,7 +19,8 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 
 runner = Player(200, 313, 40, 55)
 moving_speed = 5
-buttonList = [Button(60, 390, 107, 45, 'leicht'), Button(187, 390, 107, 45, 'schwer'), Button(314, 390, 107, 45, 'ende')]
+buttonList = [Button(60, 390, 107, 45, 'leicht'), Button(
+    187, 390, 107, 45, 'schwer'), Button(314, 390, 107, 45, 'ende')]
 game = Game(1, runner, moving_speed)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
@@ -36,7 +37,8 @@ showCastle = False
 
 # Adding User events
 add_obstacle = pygame.USEREVENT + 1
-pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+pygame.time.set_timer(
+    add_obstacle, game.generate_random_time(game.level), loops=1)
 
 level_end_timer = pygame.USEREVENT + 2
 pygame.time.set_timer(level_end_timer, levelTime, loops=1)
@@ -53,7 +55,8 @@ if __name__ == '__main__':
             for event in pygame.event.get():
                 if event.type == add_obstacle:
                     game.add_random_obstacle(showCastle)
-                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                    pygame.time.set_timer(
+                        add_obstacle, game.generate_random_time(game.level), loops=1)
                 if event.type == show_castle_timer:
                     showCastle = True
                 if event.type == level_end_timer:
@@ -79,45 +82,56 @@ if __name__ == '__main__':
             game.update_obstacles(screen, showCastle)
             pygame.display.update()
             clock.tick(speed)
-        
+
         while startScreen:
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
-                if event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'leicht':
-                    # initialize new game and new Background with new HitUi
-                    game = Game(1, runner, moving_speed)
-                    back_ground = Background(moving_speed, game)
-                    
-                    # set needed event-timers
-                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
-                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
-                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+                if event.type == MOUSEBUTTONDOWN:
+                    if start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'leicht':
+                        # initialize new game and new Background with new HitUi
+                        game = Game(1, runner, moving_speed)
+                        back_ground = Background(moving_speed, game)
 
-                    # set switches 
-                    levelRunning = True
-                    startScreen = False
+                        # set needed event-timers
+                        pygame.time.set_timer(
+                            show_castle_timer, castleTime, loops=1)
+                        pygame.time.set_timer(
+                            add_obstacle, game.generate_random_time(game.level), loops=1)
+                        pygame.time.set_timer(
+                            level_end_timer, levelTime, loops=1)
 
-                if event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'schwer':
-                    # initialize new game and new Background with new HitUi
-                    game = Game(2, runner, moving_speed)
-                    back_ground = Background(moving_speed, game)
+                        # set switches
+                        levelRunning = True
+                        startScreen = False
 
-                    # set needed event-timers
-                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
-                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
-                    pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+                    elif start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'schwer':
+                        # initialize new game and new Background with new HitUi
+                        game = Game(2, runner, moving_speed)
+                        back_ground = Background(moving_speed, game)
 
-                    # set switches
-                    levelRunning = True
-                    startScreen = False
+                        # set needed event-timers
+                        pygame.time.set_timer(
+                            show_castle_timer, castleTime, loops=1)
+                        pygame.time.set_timer(
+                            add_obstacle, game.generate_random_time(game.level), loops=1)
+                        pygame.time.set_timer(
+                            level_end_timer, levelTime, loops=1)
 
-                if event.type == QUIT or event.type == MOUSEBUTTONDOWN and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[0] == True and start_screen.collsionDetection(buttonList, pygame.mouse.get_pos())[1] == 'ende':
+                        # set switches
+                        levelRunning = True
+                        startScreen = False
+
+                    elif start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'ende':
+                        pygame.quit()
+                        sys.exit()
+
+                if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-            
+
             start_screen.update(screen, buttonList)
             pygame.display.update()
-        
+
         while endScreen:
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
@@ -125,10 +139,12 @@ if __name__ == '__main__':
                     # initialize new game and new Background with new HitUi
                     game = Game(1, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
-                    
+
                     # set needed event-timers
-                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
-                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                    pygame.time.set_timer(
+                        show_castle_timer, castleTime, loops=1)
+                    pygame.time.set_timer(
+                        add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
@@ -142,19 +158,20 @@ if __name__ == '__main__':
                     back_ground = Background(moving_speed, game)
 
                     # set needed event-timers
-                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
-                    pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
+                    pygame.time.set_timer(
+                        show_castle_timer, castleTime, loops=1)
+                    pygame.time.set_timer(
+                        add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
                     showCastle = False
                     levelRunning = True
                     endScreen = False
-            
+
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-                    
+
             final_screen.update(screen, game, buttonList)
             pygame.display.update()
-
