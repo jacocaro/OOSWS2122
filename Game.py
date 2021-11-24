@@ -15,6 +15,8 @@ class Game():
         self.level = level
         self.hit_count = 0
         self.r = 0
+        self.obstacleCount = 0
+        self.endscore = 100
         self.show_hitboxes = False
         self.moving_speed = moving_speed
         self.castle = Castle(810, 200, 0, 0, self.moving_speed)
@@ -39,6 +41,7 @@ class Game():
                     obstacle.is_collided = True
                     self.player.gotHit = True
                     self.hit_count += 1
+                    self.endscore = (self.obstacleCount-self.hit_count) / (self.obstacleCount/100)
                     #Update Hit-User Interface
                     self.hitUi = self.font.render('Hits: ' + str(self.hit_count), True, Color('white'))
         if showCastle:
@@ -52,14 +55,15 @@ class Game():
 
     def add_random_obstacle(self, showCastle):
         self.r = random.randrange(0, len(self.obstacle_prefabs))
-
         if showCastle == False:
             # Lantern
             if self.r == 0:
                 self.obstacles.append(self.obstacle_prefabs[self.r](810, 270, 114, 117, self.moving_speed))
+                self.obstacleCount += 1
             # Wall
             if self.r == 1:
                 self.obstacles.append(self.obstacle_prefabs[self.r](810, 0, 20, 447, self.moving_speed))
+                self.obstacleCount += 1
       
     
     def generate_random_time(self, level):

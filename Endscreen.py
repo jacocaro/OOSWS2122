@@ -13,7 +13,7 @@ class Endscreen():
         
     def update(self, screen, game, buttonList):
         # Anzeige Hit-User-Interface
-        self.endScreenUiScoreText = self.fontend.render('Dein Score: ' + str(game.hit_count), True, Color('white'))
+        self.endScreenUiScoreText = self.fontend.render('Dein Score: ' + str(game.endscore) + ' %', True, Color('white'))
         screen.blit(self.endScreenUiEndText, (160,80))
         screen.blit(self.endScreenUiScoreText, (160,140))
         #screen.blit(self.endScreenUiNewGame, (50,350))
