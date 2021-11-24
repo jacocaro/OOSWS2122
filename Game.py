@@ -58,6 +58,7 @@ class Game():
             if self.r == 1:
                 self.obstacles.append(self.obstacle_prefabs[self.r](810, 0, 20, 447, self.moving_speed))
         else:
+            # Castle - End of Game
             self.obstacles.append(self.obstacle_prefabs[len(self.obstacle_prefabs)-1](810, 200, 0, 0, self.moving_speed))
     
     def generate_random_time(self, level):

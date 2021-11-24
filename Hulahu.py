@@ -80,27 +80,33 @@ if __name__ == '__main__':
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_LEFT]:
                     # initialize new game and new Background with new HitUi
+                    showCastle = False
                     game = Game(1, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
-
+                    
                     # set needed event-timers
+                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
+                    
                     levelRunning = True
                     endScreen = False
 
                 if keys[pygame.K_RIGHT]:
                     # initialize new game and new Background with new HitUi
+                    showCastle = False
                     game = Game(2, runner, moving_speed)
                     back_ground = Background(moving_speed, game)
 
                     # set needed event-timers
+                    pygame.time.set_timer(show_castle_timer, castleTime, loops=1)
                     pygame.time.set_timer(add_obstacle, game.generate_random_time(game.level), loops=1)
                     pygame.time.set_timer(level_end_timer, levelTime, loops=1)
 
                     # set switches
+                    
                     levelRunning = True
                     endScreen = False
             
