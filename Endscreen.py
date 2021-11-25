@@ -1,9 +1,7 @@
 import pygame
 from pygame.locals import *
-from pygame import mixer
 
 class Endscreen():
-    
     def __init__(self, game, screen):
         self.game = game
         self.screen = screen
@@ -17,8 +15,6 @@ class Endscreen():
         if endscreen == False:
             self.endscreenIsSet = False
         if endscreen and self.endscreenIsSet == False:
-            pygame.mixer.music.load('Sound/win.wav')
-            pygame.mixer.music.play(0)
             self.endScreenUiScoreText = self.fontend.render('Dein Score: ' + str(game.endscore) + ' %', True, Color('white'))
             screen.blit(self.endScreenUiEndText, (180,100))
             screen.blit(self.endScreenUiScoreText, (180,130))

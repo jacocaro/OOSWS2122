@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import sys
+import sys, os
 from Endscreen import Endscreen
 from Player import Player
 from Game import Game
@@ -35,7 +35,10 @@ endScreen = False
 levelTime = 20000
 castleTime = 14500
 showCastle = False
-
+# sound = pygame.mixer.Sound('Sound/owl.wav')
+soundend = pygame.mixer.Sound('Sound/win.wav')
+channel1 = pygame.mixer.Channel(0)
+#channel2 = pygame.mixer.Channel(1)
 
 # Adding User events
 add_obstacle = pygame.USEREVENT + 1
@@ -62,6 +65,7 @@ if __name__ == '__main__':
                 if event.type == show_castle_timer:
                     showCastle = True
                 if event.type == level_end_timer:
+                    channel1.play(soundend)
                     endScreen = True
                     levelRunning = False
 
@@ -78,9 +82,8 @@ if __name__ == '__main__':
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-
-            pygame.mixer.music.load('Sound/owl.wav')
-            pygame.mixer.music.play(-1)
+            
+            #channel2.play(sound)
             back_ground.update(screen, showCastle)
             runner.update(screen)
             game.update_obstacles(screen, showCastle)
