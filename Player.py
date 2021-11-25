@@ -14,7 +14,7 @@ class Player(object):
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
-        self.y_base = 313
+        self.y_base = 330
         self.width = width
         self.height = height
         self.jumping = False
@@ -25,7 +25,7 @@ class Player(object):
         self.colliding = False
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
-        self.jump_multiplier = 0.89
+        self.jump_multiplier = 0.92
 
     def update(self, screen):
         if self.jumping:
@@ -35,7 +35,7 @@ class Player(object):
 
             if self.y >= self.y_base:
                 self.y = self.y_base
-                self.jump_multiplier = 0.89
+                self.jump_multiplier = 0.92
                 self.jumping = False
         
         if self.fading:

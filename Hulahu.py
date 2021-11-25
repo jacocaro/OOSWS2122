@@ -17,11 +17,11 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 
 # ----------------- Variablen und Mainloop -------------------------------------
 
-runner = Player(200, 313, 40, 55)
+runner = Player(200, 330, 40, 55)
 moving_speed = 5
 buttonList = [Button(60, 390, 107, 45, 'leicht'), Button(
     187, 390, 107, 45, 'schwer'), Button(314, 390, 107, 45, 'ende')]
-game = Game(1, runner, moving_speed)
+game = Game(1, runner, moving_speed, 0)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
 final_screen = Endscreen(game, screen)
@@ -89,7 +89,7 @@ if __name__ == '__main__':
                 if event.type == MOUSEBUTTONDOWN:
                     if start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'leicht':
                         # initialize new game and new Background with new HitUi
-                        game = Game(1, runner, moving_speed)
+                        game = Game(1, runner, moving_speed, 7)
                         back_ground = Background(moving_speed, game)
 
                         # set needed event-timers
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
                     elif start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'schwer':
                         # initialize new game and new Background with new HitUi
-                        game = Game(2, runner, moving_speed)
+                        game = Game(2, runner, moving_speed, 10)
                         back_ground = Background(moving_speed, game)
 
                         # set needed event-timers
@@ -138,7 +138,7 @@ if __name__ == '__main__':
                 if event.type == MOUSEBUTTONDOWN:
                     if final_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'leicht':
                         # initialize new game and new Background with new HitUi
-                        game = Game(1, runner, moving_speed)
+                        game = Game(1, runner, moving_speed, 7)
                         back_ground = Background(moving_speed, game)
 
                         # set needed event-timers
@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
                     elif final_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'schwer':
                         # initialize new game and new Background with new HitUi
-                        game = Game(2, runner, moving_speed)
+                        game = Game(2, runner, moving_speed, 10)
                         back_ground = Background(moving_speed, game)
 
                         # set needed event-timers
