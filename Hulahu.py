@@ -19,8 +19,10 @@ pygame.display.set_caption('Hulahu auf Reisen')  # setting game title
 
 runner = Player(200, 330, 40, 55)
 moving_speed = 5
-buttonList = [Button(60, 390, 107, 45, 'leicht'), Button(
-    187, 390, 107, 45, 'schwer'), Button(314, 390, 107, 45, 'ende')]
+buttonList = [Button(10, 390, 107, 45, 'leicht'), Button(
+    132, 390, 107, 45, 'schwer'), Button(254, 390, 107, 45, 'ende')]
+buttonListEndScreen = [Button(410, 390, 107, 45, 'leicht'), Button(
+    532, 390, 107, 45, 'schwer'), Button(654, 390, 107, 45, 'ende')]
 game = Game(1, runner, moving_speed, 0)
 clock = pygame.time.Clock()
 back_ground = Background(moving_speed, game)
@@ -77,6 +79,8 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
 
+            pygame.mixer.music.load('Sound/owl.wav')
+            pygame.mixer.music.play(-1)
             back_ground.update(screen, showCastle)
             runner.update(screen)
             game.update_obstacles(screen, showCastle)
@@ -136,7 +140,7 @@ if __name__ == '__main__':
             for event in pygame.event.get():
                 keys = pygame.key.get_pressed()
                 if event.type == MOUSEBUTTONDOWN:
-                    if final_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'leicht':
+                    if final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'leicht':
                         # initialize new game and new Background with new HitUi
                         game = Game(1, runner, moving_speed, 7)
                         back_ground = Background(moving_speed, game)
@@ -153,7 +157,7 @@ if __name__ == '__main__':
                         levelRunning = True
                         endScreen = False
 
-                    elif final_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'schwer':
+                    elif final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'schwer':
                         # initialize new game and new Background with new HitUi
                         game = Game(2, runner, moving_speed, 10)
                         back_ground = Background(moving_speed, game)
@@ -170,7 +174,7 @@ if __name__ == '__main__':
                         levelRunning = True
                         endScreen = False
                     
-                    elif final_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'ende':
+                    elif final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'ende':
                         pygame.quit()
                         sys.exit()
 
@@ -178,5 +182,5 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
 
-            final_screen.update(screen, game, buttonList)
+            final_screen.update(screen, game, buttonListEndScreen, endScreen)
             pygame.display.update()
