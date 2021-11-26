@@ -35,10 +35,10 @@ endScreen = False
 levelTime = 20000
 castleTime = 14500
 showCastle = False
-# sound = pygame.mixer.Sound('Sound/owl.wav')
-soundend = pygame.mixer.Sound('Sound/win.wav')
+owl = pygame.mixer.Sound('Sound/owl.wav')
+win = pygame.mixer.Sound('Sound/win.wav')
 channel1 = pygame.mixer.Channel(0)
-#channel2 = pygame.mixer.Channel(1)
+channel2 = pygame.mixer.Channel(1)
 
 # Adding User events
 add_obstacle = pygame.USEREVENT + 1
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                 if event.type == show_castle_timer:
                     showCastle = True
                 if event.type == level_end_timer:
-                    channel1.play(soundend)
+                    channel1.play(win)
                     endScreen = True
                     levelRunning = False
 
@@ -83,7 +83,6 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
             
-            #channel2.play(sound)
             back_ground.update(screen, showCastle)
             runner.update(screen)
             game.update_obstacles(screen, showCastle)
@@ -111,6 +110,9 @@ if __name__ == '__main__':
                         levelRunning = True
                         startScreen = False
 
+                        # start sound
+                        channel2.play(owl)
+
                     elif start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'schwer':
                         # initialize new game and new Background with new HitUi
                         game = Game(2, runner, moving_speed, 10)
@@ -127,6 +129,9 @@ if __name__ == '__main__':
                         # set switches
                         levelRunning = True
                         startScreen = False
+
+                        # start sound
+                        channel2.play(owl)
 
                     elif start_screen.collsionDetection(buttonList, pygame.mouse.get_pos()) == 'ende':
                         pygame.quit()
@@ -160,6 +165,9 @@ if __name__ == '__main__':
                         levelRunning = True
                         endScreen = False
 
+                        # start sound
+                        channel2.play(owl)
+
                     elif final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'schwer':
                         # initialize new game and new Background with new HitUi
                         game = Game(2, runner, moving_speed, 10)
@@ -176,6 +184,9 @@ if __name__ == '__main__':
                         showCastle = False
                         levelRunning = True
                         endScreen = False
+
+                        # start sound
+                        channel2.play(owl)
                     
                     elif final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'ende':
                         pygame.quit()
