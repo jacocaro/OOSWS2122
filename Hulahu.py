@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
-import sys, os
+import sys
+import os
 from Endscreen import Endscreen
 from Player import Player
 from Game import Game
@@ -82,7 +83,7 @@ if __name__ == '__main__':
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-            
+
             back_ground.update(screen, showCastle)
             runner.update(screen)
             game.update_obstacles(screen, showCastle)
@@ -158,7 +159,8 @@ if __name__ == '__main__':
                             show_castle_timer, castleTime, loops=1)
                         pygame.time.set_timer(
                             add_obstacle, game.generate_random_time(game.level), loops=1)
-                        pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+                        pygame.time.set_timer(
+                            level_end_timer, levelTime, loops=1)
 
                         # set switches
                         showCastle = False
@@ -178,7 +180,8 @@ if __name__ == '__main__':
                             show_castle_timer, castleTime, loops=1)
                         pygame.time.set_timer(
                             add_obstacle, game.generate_random_time(game.level), loops=1)
-                        pygame.time.set_timer(level_end_timer, levelTime, loops=1)
+                        pygame.time.set_timer(
+                            level_end_timer, levelTime, loops=1)
 
                         # set switches
                         showCastle = False
@@ -187,7 +190,7 @@ if __name__ == '__main__':
 
                         # start sound
                         channel2.play(owl)
-                    
+
                     elif final_screen.collsionDetection(buttonListEndScreen, pygame.mouse.get_pos()) == 'ende':
                         pygame.quit()
                         sys.exit()
