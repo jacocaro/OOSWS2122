@@ -4,9 +4,30 @@ import os
 from Wall import Wall
 
 class Player(object):
-    # evtl später Array mit Bildern für Animation hinterlegen
+    """
+    setup Player - defines move set and collision detection
+
+    Attributes
+    ----------
+    run, jump, fade, ghostHit : image - player images for different move set types 
+    x, y : int - x and y position of player
+    width, height : int - width and heigth of player
+    y_base : int - initial y position
+    jumping : Boolean - check for jump
+    fading : Boolean - check for fade
+    fadeCount : int - number to count fade frames
+    gotHit : Boolean - check for hit
+    gothitcount : int - number to count hit frames
+    colliding : Boolean - check for collision
+    hitbox : Rect - rectangle to check collision
+    jump_multiplier : Decimal - height adjustment muliplier for jumping
+    
+    Methods
+    -------
+    update(screen) : defines move set for jump, fade and hit
+    collide(obstacle) : checks for collision detection player - obstacle
+    """
     run = pygame.image.load(os.path.join('Images', 'ghost.png'))
-    # evtl später Array mit Bildern für Animation hinterlegen
     jump = pygame.image.load(os.path.join('Images', 'ghost.png'))
     fade = pygame.image.load(os.path.join('Images', 'ghost_trans.png'))
     ghostHit = pygame.image.load(os.path.join('Images', 'ghost_red.png'))
@@ -14,9 +35,9 @@ class Player(object):
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
-        self.y_base = 330
         self.width = width
         self.height = height
+        self.y_base = 330
         self.jumping = False
         self.fading = False
         self.fadeCount = 0
@@ -24,10 +45,13 @@ class Player(object):
         self.gothitcount = 0
         self.colliding = False
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
-
         self.jump_multiplier = 0.92
 
     def update(self, screen):
+        """
+        defines move set for jump, fade and hit
+        @param screen: Display
+        """
         if self.jumping:
             self.jump_multiplier += 0.005
 
@@ -58,6 +82,11 @@ class Player(object):
         self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def collide(self, obstacle):
+        """
+        checks for collision detection player - obstacle
+        @param obstacle : Object
+        @returns : Boolean 
+        """
         if self.hitbox.colliderect(obstacle.hitbox):
             if self.fading and type(obstacle) == Wall:
                 return False

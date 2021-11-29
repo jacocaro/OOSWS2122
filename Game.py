@@ -1,5 +1,4 @@
 import pygame
-import os
 from pygame.locals import *
 import random
 from Light import Light
@@ -7,8 +6,34 @@ from Wall import Wall
 from Castle import Castle
 
 class Game():
+    """
+    obstacle utility class
 
-    def __init__(self, level, player, moving_speed, obstacle_speed):
+    Attributes
+    ----------
+    obstacle_prefabs : list - list of used obstacles
+    obstacles : list - list of obstacles 
+    player : Player 
+    level : int - level difficulty 
+    hit_count : int - count number of hits
+    r : int - random number
+    obstacleCount : int - count number of obstacles in game 
+    endscore : int - number for endscore
+    show_hitboxes : Boolean - check for hitbox display
+    obstacle_speed : int - obstacle moving speed
+    castle : Castle 
+    font : Font
+    hitUi : Font - set text
+
+    Methods
+    -------
+    update_obstacles(screen, showCastle) : move obstacle, check for collision, cont hits, calculates endscore
+    generate_prefabs(level) : returns list of obstacles 
+    add_random_obstacle(showCastle) : adds random obstacle to obstacle list
+    generate_random_time(level) : generate random time between obstacles 
+
+    """
+    def __init__(self, level, player, obstacle_speed):
         self.obstacle_prefabs = self.generate_prefabs(level)
         self.obstacles = []
         self.player = player
@@ -18,7 +43,6 @@ class Game():
         self.obstacleCount = 0
         self.endscore = 100
         self.show_hitboxes = False
-        self.moving_speed = moving_speed
         self.obstacle_speed = obstacle_speed
         self.castle = Castle(810, 220, 0, 0, 5)
         # Anzeige Hit-User-Interface
@@ -26,6 +50,11 @@ class Game():
         self.hitUi = self.font.render('Hits: ' + str(self.hit_count), True, Color('white'))
 
     def update_obstacles(self, screen, showCastle):
+        """
+        move obstacle, check for collision, cont hits, calculates endscore
+        @param screen : Screen
+        @param showCastle : Boolean
+        """
         for obstacle in self.obstacles:
 
             if obstacle.x < -150:
@@ -49,12 +78,20 @@ class Game():
             self.castle.update(screen)
 
     def generate_prefabs(self, level):
+        """
+        returns list of obstacles 
+        @param level : int
+        """
         if level == 1:
             return [Wall]
         if level == 2:
             return [Wall, Light]
 
     def add_random_obstacle(self, showCastle):
+        """
+        adds random obstacle to obstacle list
+        @param showCastle : Boolean
+        """
         self.r = random.randrange(0, len(self.obstacle_prefabs))
         if showCastle == False:
             # Lantern
@@ -68,6 +105,10 @@ class Game():
       
     
     def generate_random_time(self, level):
+        """
+        generate random time between obstacles 
+        @param level: int
+        """
         if level == 1:
             r = random.randrange(1500, 3000)  
         if level == 2:
