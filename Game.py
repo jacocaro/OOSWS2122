@@ -59,7 +59,7 @@ class Game():
         if showCastle == False:
             # Lantern
             if self.r == 1:
-                self.obstacles.append(self.obstacle_prefabs[self.r](810, 270, 114, 117, self.obstacle_speed))
+                self.obstacles.append(self.obstacle_prefabs[self.r](810, 270, 105, 105, self.obstacle_speed))
                 self.obstacleCount += 1
             # Wall
             if self.r == 0:
