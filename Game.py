@@ -102,7 +102,6 @@ class Game():
             if self.r == 0:
                 self.obstacles.append(self.obstacle_prefabs[self.r](810, -30, 20, 447, self.obstacle_speed))
                 self.obstacleCount += 1
-      
     
     def generate_random_time(self, level):
         """

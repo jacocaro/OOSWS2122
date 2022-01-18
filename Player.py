@@ -37,7 +37,7 @@ class Player(object):
         self.y = y
         self.width = width
         self.height = height
-        self.y_base = 330
+        self.y_base = y
         self.jumping = False
         self.fading = False
         self.fadeCount = 0
